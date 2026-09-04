@@ -1,0 +1,25 @@
+name: Feature request
+description: Describe an outcome that should become easier in 4789
+title: "[Feature] "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What should become easier?
+      description: Describe the user problem without including a private service or credential.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy check
+      options:
+        - label: This request contains no key, token, password, settings export, or private URL.
+          required: true

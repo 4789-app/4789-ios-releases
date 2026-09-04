@@ -1,0 +1,50 @@
+name: Bug report
+description: Report a reproducible problem in a public 4789 iPhone build
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Never post passwords, API keys, tokens, settings exports, private usernames, personal media details, or complete credential-bearing URLs. Redact them before submitting.
+  - type: input
+    id: build
+    attributes:
+      label: 4789 version and build
+      placeholder: "Example: 1.0.0 (2609041234)"
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: iPhone and iOS version
+      placeholder: "Example: iPhone 17 Pro, iOS 26.5"
+    validations:
+      required: true
+  - type: dropdown
+    id: sideloader
+    attributes:
+      label: Sideloading method
+      options: [SideStore, AltStore Classic, Sideloadly, Other]
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Start from a fresh app launch and list the exact actions.
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Expected and actual result
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy check
+      options:
+        - label: I removed credentials, private URLs, usernames, and personal media details.
+          required: true
