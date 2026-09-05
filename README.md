@@ -1,6 +1,10 @@
+<div align="center">
+  <img src="assets/4789-ios-icon.png" width="112" height="112" alt="4789 for iPhone app icon">
+
 # 4789 for iPhone
 
-> One beautiful library. One place to press play.
+**One beautiful library. One place to press play.**
+</div>
 
 **The first public beta is being prepared. No IPA has been published yet.**
 
