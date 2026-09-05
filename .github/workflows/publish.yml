@@ -1,9 +1,12 @@
 name: publish
 
 # Releases are created by this workflow so the release author is the repository's
-# CI identity. Assets are staged in release-staging/ by a docs commit, published
-# here, and the staging directory is removed afterwards. The SHA-256 in
-# SHA256SUMS.txt lets anyone verify the download independently.
+# CI identity. Assets are staged in release-staging/ by a docs commit. This
+# workflow verifies them, REMOVES the staging directory in a bot commit, and only
+# then creates the tag/release on that clean commit — so GitHub's automatic
+# "Source code" archives for the tag contain documentation only, never a
+# duplicate of the release binary. The SHA-256 in SHA256SUMS.txt lets anyone
+# verify the download independently.
 
 on:
   workflow_dispatch:
@@ -31,15 +34,30 @@ jobs:
           test -f NOTES.md
           sha256sum -c SHA256SUMS.txt
 
-      - name: Create the release
+      - name: Move assets out of the tree
+        run: |
+          set -euo pipefail
+          mv release-staging "$RUNNER_TEMP/release-assets"
+
+      - name: Remove staging in a bot commit
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -r --quiet --ignore-unmatch release-staging
+          git commit -m "chore: remove release staging for ${{ inputs.tag }}"
+          git push origin HEAD
+
+      - name: Create the release on the clean commit
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          cd release-staging
+          cd "$RUNNER_TEMP/release-assets"
           assets=$(ls *.ipa)
           gh release create "${{ inputs.tag }}" \
             --repo "${{ github.repository }}" \
+            --target "$(git -C "$GITHUB_WORKSPACE" rev-parse HEAD)" \
             --title "${{ inputs.title }}" \
             --notes-file NOTES.md \
             --latest \
