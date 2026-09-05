@@ -6,7 +6,7 @@
 **One beautiful library. One place to press play.**
 </div>
 
-**The first public beta is being prepared. No IPA has been published yet.**
+**Public beta 1 is available. Download the verified IPA from the [latest release](https://github.com/4789-app/4789-ios-releases/releases/latest) and compare its SHA-256 before signing.**
 
 iOS 26 or later · No jailbreak · No 4789 account · User-signed IPA
 
@@ -21,7 +21,7 @@ player or continue on a supported television. Connect services and files you are
   setup; iPhone import; trust; refresh; updates; and backup precautions.
 - [Official releases](https://github.com/4789-app/4789-ios-releases/releases): the source of truth for
   published IPA files, exact version/build metadata, checksums, source-feed availability, and known
-  limitations. There is no public IPA to download yet.
+  limitations.
 - [Product walkthrough](https://4789library.com/workflows)
 - [Website installation guide](https://4789library.com/install)
 - [Privacy and direct connections](PRIVACY.md)
