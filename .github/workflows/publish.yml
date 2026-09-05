@@ -1,0 +1,46 @@
+name: publish
+
+# Releases are created by this workflow so the release author is the repository's
+# CI identity. Assets are staged in release-staging/ by a docs commit, published
+# here, and the staging directory is removed afterwards. The SHA-256 in
+# SHA256SUMS.txt lets anyone verify the download independently.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to publish (e.g. v1.0.0-beta.1)"
+        required: true
+      title:
+        description: "Release title"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify staged assets against SHA256SUMS
+        run: |
+          set -euo pipefail
+          cd release-staging
+          test -f NOTES.md
+          sha256sum -c SHA256SUMS.txt
+
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          cd release-staging
+          assets=$(ls *.ipa)
+          gh release create "${{ inputs.tag }}" \
+            --repo "${{ github.repository }}" \
+            --title "${{ inputs.title }}" \
+            --notes-file NOTES.md \
+            --latest \
+            $assets SHA256SUMS.txt
